@@ -17,7 +17,7 @@ unet_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accur
 
 
 unet_historyc = unet_model.fit(X_all_epochs, y_mask_dynamic,
-                                            epochs=15, 
+                                            epochs=20, 
                                             batch_size=32,
                                             validation_split=0.2, 
                                             verbose=1)
