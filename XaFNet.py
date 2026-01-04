@@ -118,3 +118,38 @@ def create_dual_branch_model(input_shape_raw_eeg_5d, input_shape_heatmap_3d, num
 
     model = Model(inputs=[input_eeg, input_heatmap], outputs=output_layer)
     return model
+
+"""
+
+Important training parameters:
+
+
+   model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001),
+                  loss='binary_crossentropy', 
+                  metrics=['accuracy',
+                           tf.keras.metrics.Precision(name='precision'),
+                           tf.keras.metrics.Recall(name='recall'),
+                           tf.keras.metrics.AUC(name='auc')])
+    fold_checkpoint_filepath = f'dual_branch_model_fold_{fold_idx+1}.weights.h5'
+    fold_checkpoint_callback = ModelCheckpoint(
+        filepath=fold_checkpoint_filepath, monitor='val_accuracy', save_best_only=True,
+        save_weights_only=True, mode='max', verbose=1
+    )
+    rp_fold = ReduceLROnPlateau(
+        monitor='val_loss', factor=0.5, patience=3, verbose=1, mode='min', 
+        min_delta=0.001, min_lr=1e-7
+    )
+
+    
+    history_fold = model.fit(
+        [X_train_eeg_final_fold, X_train_heatmap_final_fold], 
+        y_train_fold,
+        epochs=30,
+        batch_size=32,
+        validation_data=([X_val_eeg_final_fold, X_val_heatmap_final_fold], y_val_fold),
+        callbacks=[fold_checkpoint_callback, rp_fold],
+        verbose=1 
+    )
+"""
+
+
