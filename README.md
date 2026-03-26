@@ -66,8 +66,4 @@ Full experimental details are provided in the manuscript and in the model docstr
 
 ---
 
-## Contact
 
-**Tushar Das**  
-National Institute of Technology Jamshedpur  
-Email: 2024ugcs088@nitjsr.ac.in
