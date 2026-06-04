@@ -88,7 +88,7 @@ def create_dual_branch_model(input_shape_raw_eeg_5d, input_shape_heatmap_3d, num
     return Model(inputs=[input_eeg, input_heatmap], outputs=output_layer)
 
 
-eeg_data_path = '/kaggle/input/datasets/tshrds2663/preprocessed-right/preprocessed_eeg_data_3D_psd (2).npz'
+eeg_data_path = '/preprocessed_eeg_data_3D.npz'
 loaded_data_eeg = np.load(eeg_data_path)
 all_subjects_X_eeg = loaded_data_eeg['X']
 all_subjects_y = loaded_data_eeg['y']
@@ -121,7 +121,7 @@ for fold_idx, (train_val_subject_indices, test_subject_indices) in enumerate(kf.
 
     
     tf.keras.backend.clear_session()
-    unet_model_path = f'/kaggle/input/models/tshrds2663/finder-unet/tensorflow2/default/1/unet_fold_{fold_idx}.keras'
+    unet_model_path = f'/unet_fold_{fold_idx}.keras'
     fold_unet = tf.keras.models.load_model(unet_model_path)
     
     print(f"  [XaF] Extracting heatmaps dynamically...")
