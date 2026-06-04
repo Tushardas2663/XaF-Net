@@ -143,7 +143,7 @@ for fold_idx, (train_val_subject_indices, test_subject_indices) in enumerate(kf.
 
 
     model = create_dual_branch_model(X_test_raw_eeg_fold.shape[1:], X_test_heatmap_final_fold.shape[1:])
-    weights_path = f'/kaggle/input/models/tshrds2663/xaf-net/tensorflow2/default/1/dual_branch_model_fold_{fold_idx+1}.weights.h5'
+    weights_path = f'/dual_branch_model_fold_{fold_idx+1}.weights.h5'
     model.load_weights(weights_path)
     
     y_pred_probs = model.predict([X_test_raw_eeg_fold, X_test_heatmap_final_fold], verbose=0).flatten()
