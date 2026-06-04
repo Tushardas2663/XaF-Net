@@ -51,7 +51,7 @@ grid_height = all_subjects_X_eeg.shape[1]
 grid_width = all_subjects_X_eeg.shape[2]
 n_timepoints_original_eeg = all_subjects_X_eeg.shape[3]
 input_shape_raw_eeg = (grid_height, grid_width, n_timepoints_original_eeg, 1) # 5D
-input_shape_heatmap = X_heatmaps_dynamic.shape[1:] # (8, 8, 1)
+input_shape_heatmap = (8, 8, 1)
 
 
 early_stopping_callback = EarlyStopping(
@@ -69,14 +69,14 @@ def get_data_for_subjects(data_array, labels_array, subject_ids_array, list_of_s
        
         filtered_data = [arr[indices_for_split] for arr in data_array]
     else:
-        # This is for the single-branch model
+        
         filtered_data = data_array[indices_for_split]
         
     return filtered_data, labels_array[indices_for_split], subject_ids_array[indices_for_split]
 
 
 class PositionalEmbedding(Layer):
-    # ... (Paste your full PositionalEmbedding class definition here) ...
+   
     def __init__(self, sequence_length, output_dim, **kwargs):
         super(PositionalEmbedding, self).__init__(**kwargs)
         self.sequence_length = sequence_length; self.output_dim = output_dim
@@ -232,15 +232,15 @@ for fold_idx, (train_val_subject_indices, test_subject_indices) in enumerate(kf.
     print("Validation subjects ", val_subject_ids)
     print(f"\n--- Processing Fold {fold_idx + 1}/{n_splits}: Test Subjects {current_test_subject_ids} ---")
     
-    # --- Get data for BOTH branches ---
-    [X_train_raw_eeg_fold, X_train_heatmap_fold], y_train_fold, _ = get_data_for_subjects(
-        [all_subjects_X_eeg, X_heatmaps_dynamic], all_subjects_y, subject_ids, train_subject_ids
+   
+    X_train_raw_eeg_fold, y_train_fold, _ = get_data_for_subjects(
+        all_subjects_X_eeg, all_subjects_y, subject_ids, train_subject_ids
     )
-    [X_val_raw_eeg_fold, X_val_heatmap_fold], y_val_fold, _ = get_data_for_subjects(
-        [all_subjects_X_eeg, X_heatmaps_dynamic], all_subjects_y, subject_ids, val_subject_ids
+    X_val_raw_eeg_fold, y_val_fold, _ = get_data_for_subjects(
+        all_subjects_X_eeg, all_subjects_y, subject_ids, val_subject_ids
     )
-    [X_test_raw_eeg_fold, X_test_heatmap_fold], y_test_fold, test_subject_ids_for_epochs = get_data_for_subjects(
-        [all_subjects_X_eeg, X_heatmaps_dynamic], all_subjects_y, subject_ids, current_test_subject_ids
+    X_test_raw_eeg_fold, y_test_fold, test_subject_ids_for_epochs = get_data_for_subjects(
+        all_subjects_X_eeg, all_subjects_y, subject_ids, current_test_subject_ids
     )
 
     print(f"  Fold {fold_idx+1} - Train: {y_train_fold.shape}, Val: {y_val_fold.shape}, Test: {y_test_fold.shape}")
